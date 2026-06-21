@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # ⚡ Hogwarts Experience — Cinematic Wizarding World
 
 An immersive, cinematic, and interactive Harry Potter-inspired web experience built with **pure HTML, CSS, and JavaScript**.
@@ -103,3 +104,6 @@ Fully optimized for all screen sizes.
 # Download project
 # Open index.html in browser
 # No dependencies required
+=======
+# hogwarts-experience
+>>>>>>> 2888fa7c3a55e10f0bdfe8184e342adb5f768b3f
