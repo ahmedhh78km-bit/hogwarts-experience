@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hogwarts Experience | Step into the Magic</title>
+    <meta name="description"
+        content="Step into the magical Wizarding World of Hogwarts. Get sorted by the Sorting Hat, explore the Hogwarts houses, practice spells, and meet legendary characters in this immersive cinematic experience.">
+    <!-- Google Fonts: Cinzel for headers, Inter for readable body text -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body data-house="none">
+
+    <!-- Global Background Elements -->
+    <canvas id="magic-canvas"></canvas>
+    <canvas id="footprints-canvas"></canvas>
+
+    <div class="sky-gradient"></div>
+    <div class="fog-container">
+        <div class="fog-layer fog-layer-1"></div>
+        <div class="fog-layer fog-layer-2"></div>
+    </div>
+
+    <!-- Ancient Parchment Map Overlay -->
+    <div id="parchment-map-overlay" class="parchment-map-overlay">
+        <div class="parchment-grain"></div>
+        <div class="map-title-banner">
+            <h2 class="map-main-title">Hogwarts Castle Map</h2>
+            <p class="map-sub-title">Click a location below to Travel</p>
+        </div>
+    </div>
+
+    <!-- ================= HEADER ================= -->
+    <header class="main-header">
+        <div class="header-container">
+          <a href="#hero" class="logo-btn" id="hogwarts-logo">
+    <span class="logo-text">HOGWARTS</span>
+    <span class="logo-glow"></span>
+</a>
+            <!-- Navigation Capsule (Center) -->
+            <nav class="nav-pill">
+                <a href="#hero" class="nav-link active" data-section="hero">Home</a>
+                <a href="#sorting-hat" class="nav-link" data-section="sorting-hat">Sorting</a>
+                <a href="#houses" class="nav-link" data-section="houses">Houses</a>
+                <a href="#journey" class="nav-link" data-section="journey">Journey</a>
+                <a href="#spells" class="nav-link" data-section="spells">Spells</a>
+                <a href="#characters" class="nav-link" data-section="characters">Characters</a>
+                <a href="#artifacts" class="nav-link" data-section="artifacts">Artifacts</a>
+            </nav>
+
+            <!-- Right Controls -->
+            <div class="header-controls">
+                <div class="header-decorative">
+                    <span class="decorative-icon">⚡</span>
+                </div>
+                <button class="btn-audio" id="audio-toggle" aria-label="Toggle Audio">
+                    <span class="audio-icon">🔊</span>
+                    <span class="audio-text">Ambience</span>
+                </button>
+                <button class="mobile-menu-toggle" id="menu-toggle" aria-label="Open Menu">
+                    <span class="menu-bar"></span>
+                    <span class="menu-bar"></span>
+                    <span class="menu-bar"></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Floating Menu -->
+        <div class="mobile-menu" id="mobile-menu">
+            <nav class="mobile-nav-links">
+                <a href="#hero" class="mobile-nav-link active" data-section="hero">Home</a>
+                <a href="#houses" class="mobile-nav-link" data-section="houses">Houses</a>
+                <a href="#journey" class="mobile-nav-link" data-section="journey">Journey</a>
+                <a href="#spells" class="mobile-nav-link" data-section="spells">Spells</a>
+                <a href="#characters" class="mobile-nav-link" data-section="characters">Characters</a>
+            </nav>
+            <div class="mobile-menu-divider"></div>
+            <div class="mobile-menu-controls">
+                <button class="mobile-control-btn" id="mobile-audio-toggle" aria-label="Toggle Audio">
+                    <span class="mobile-control-icon">🔊</span>
+                    <span class="mobile-control-text">Ambience</span>
+                </button>
+            </div>
+        </div>
+    </header>
+    <main id="main-content">
+        <!-- 1. Hero Section -->
+        <section id="hero" class="hero-section map-zone" data-label="Gates of Hogwarts">
+
+            <div class="hero-bg" style="background-image: url('assets/hogwarts_castle.png');"></div>
+            <div class="hero-overlay"></div>
+
+            <div class="hero-content">
+
+                <h1 class="hero-title">Welcome to the Wizarding World</h1>
+
+                <a href="#sorting-hat" class="enter-hogwarts-btn" id="enter-btn">
+                    <span class="btn-icon">✦</span>
+                    <span class="btn-text">Enter Hogwarts</span>
+                    <span class="btn-icon">✦</span>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- 2. Sorting Hat Section -->
+        <section id="sorting-hat" class="sorting-hat-section map-zone" data-label="Great Hall">
+            <div class="container">
+                <div class="section-header text-center">
+                    <h2 class="section-title gold-text">The Sorting Hat</h2>
+                    <p class="section-subtitle">Place the ancient hat upon your head to discover your true Hogwarts
+                        House.</p>
+                </div>
+
+                <div class="sorting-container glass-panel">
+                    <div class="sorting-visual-area">
+                        <div class="glow-burst" id="sorting-glow"></div>
+                        <img src="assets/sorting_hat.png" alt="Ancient Sorting Hat" class="sorting-hat-img"
+                            id="sorting-hat-img">
+                    </div>
+
+                    <!-- Standard Interface -->
+                    <div class="sorting-interface" id="sorting-interface">
+                        <p class="sorting-dialogue" id="hat-speech">"Ah, yes. A curious mind... where shall I put you?"
+                        </p>
+                        <div class="sorting-actions">
+                            <button id="sort-quiz-btn" class="btn btn-gold">
+                                <span class="btn-glow"></span>
+                                Take Personality Quiz
+                            </button>
+                            <button id="sort-btn" class="btn btn-outline btn-sm">
+                                Skip Quiz (Random Sort)
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Personality Quiz Form -->
+                    <div class="sorting-quiz-container hidden" id="sorting-quiz-container">
+                        <div class="quiz-progress-bar">
+                            <div class="quiz-progress" id="quiz-progress"></div>
+                        </div>
+                        <p class="quiz-question" id="quiz-question">Question text goes here...</p>
+                        <div class="quiz-options" id="quiz-options">
+                            <!-- Injected dynamically via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Reveal Area -->
+                    <div class="sorting-reveal hidden" id="sorting-reveal">
+                        <h3 class="revealed-house-title" id="revealed-house-name">Gryffindor</h3>
+                        <p class="revealed-house-desc" id="revealed-house-desc">Where dwell the brave at heart. Their
+                            daring, nerve, and chivalry set Gryffindors apart.</p>
+                        <button id="reset-sort-btn" class="btn btn-outline">
+                            Try Again
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Hogwarts Houses Section -->
+        <section id="houses" class="houses-section map-zone" data-label="Common Rooms">
+            <div class="container">
+                <div class="section-header text-center">
+                    <h2 class="section-title gold-text">Hogwarts Houses</h2>
+                    <p class="section-subtitle">Founded by the four greatest witches and wizards of their age.</p>
+                </div>
+
+                <div class="houses-grid">
+                    <!-- Gryffindor -->
+                    <div class="house-card glass-panel" data-house="gryffindor" id="card-gryffindor">
+                        <div class="house-card-border-glow"></div>
+                        <div class="house-card-content">
+                            <div class="house-icon-wrapper">
+                                <!-- Gryffindor Lion SVG Emblem -->
+                                <svg class="house-icon" viewBox="0 0 100 100" fill="currentColor">
+                                    <path
+                                        d="M50,5 C30,15 20,30 20,55 C20,75 35,90 50,95 C65,90 80,75 80,55 C80,30 70,15 50,5 Z M50,85 C42,80 30,68 30,52 C30,42 35,32 45,22 C48,25 45,35 48,40 C51,32 58,25 65,22 C62,28 65,35 62,45 C65,42 70,45 68,52 C65,65 58,78 50,85 Z"
+                                        opacity="0.15" />
+                                    <path
+                                        d="M50,15 C45,25 35,35 35,48 C35,55 38,62 42,65 C38,65 35,62 32,58 C30,65 35,72 40,75 C35,75 32,70 30,68 C32,75 38,80 45,82 C42,82 38,80 36,78 C40,84 48,86 52,86 C55,86 58,84 62,82 C65,80 60,78 58,75 C62,72 68,65 65,58 C62,62 60,65 55,65 C60,62 62,55 62,48 C62,35 52,25 50,15 Z"
+                                        fill="#D4AF37" />
+                                </svg>
+                            </div>
+                            <h3 class="house-name">Gryffindor</h3>
+                            <p class="house-desc">Valor, bravery, and determination define the house of Godric
+                                Gryffindor. Symbolized by the lion and the element of fire.</p>
+                            <div class="house-traits">
+                                <span class="trait-tag">Bravery</span>
+                                <span class="trait-tag">Chivalry</span>
+                                <span class="trait-tag">Daring</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slytherin -->
+                    <div class="house-card glass-panel" data-house="slytherin" id="card-slytherin">
+                        <div class="house-card-border-glow"></div>
+                        <div class="house-card-content">
+                            <div class="house-icon-wrapper">
+                                <!-- Slytherin Serpent SVG Emblem -->
+                                <svg class="house-icon" viewBox="0 0 100 100" fill="currentColor">
+                                    <path
+                                        d="M50,5 C30,15 20,30 20,55 C20,75 35,90 50,95 C65,90 80,75 80,55 C80,30 70,15 50,5 Z M50,85 C42,80 30,68 30,52 C30,42 35,32 45,22 C48,25 45,35 48,40 C51,32 58,25 65,22 C62,28 65,35 62,45 C65,42 70,45 68,52 C65,65 58,78 50,85 Z"
+                                        opacity="0.15" />
+                                    <path
+                                        d="M50,20 C42,20 38,25 38,32 C38,40 45,42 48,45 C52,48 55,50 55,55 C55,60 50,65 42,65 C35,65 32,60 32,58 L30,62 C30,68 36,72 42,72 C50,72 58,68 58,58 C58,48 50,45 46,42 C42,40 40,38 40,35 C40,30 45,26 50,26 C55,26 58,30 58,32 L60,28 C58,24 55,20 50,20 Z"
+                                        fill="#2A623D" />
+                                </svg>
+                            </div>
+                            <h3 class="house-name">Slytherin</h3>
+                            <p class="house-desc">Ambition, cunning, and resourcefulness guide the heirs of Salazar
+                                Slytherin. Represented by the serpent and the element of water.</p>
+                            <div class="house-traits">
+                                <span class="trait-tag">Ambition</span>
+                                <span class="trait-tag">Cunning</span>
+                                <span class="trait-tag">Pride</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ravenclaw -->
+                    <div class="house-card glass-panel" data-house="ravenclaw" id="card-ravenclaw">
+                        <div class="house-card-border-glow"></div>
+                        <div class="house-card-content">
+                            <div class="house-icon-wrapper">
+                                <!-- Ravenclaw Eagle SVG Emblem -->
+                                <svg class="house-icon" viewBox="0 0 100 100" fill="currentColor">
+                                    <path
+                                        d="M50,5 C30,15 20,30 20,55 C20,75 35,90 50,95 C65,90 80,75 80,55 C80,30 70,15 50,5 Z M50,85 C42,80 30,68 30,52 C30,42 35,32 45,22 C48,25 45,35 48,40 C51,32 58,25 65,22 C62,28 65,35 62,45 C65,42 70,45 68,52 C65,65 58,78 50,85 Z"
+                                        opacity="0.15" />
+                                    <path
+                                        d="M50,18 C40,25 32,38 32,50 C32,58 35,62 38,65 C38,58 42,52 50,45 C58,52 62,58 62,65 C65,62 68,58 68,50 C68,38 60,25 50,18 Z M45,72 C42,75 42,78 45,82 L55,82 C58,78 58,75 55,72 C50,70 50,70 45,72 Z"
+                                        fill="#222F5B" />
+                                </svg>
+                            </div>
+                            <h3 class="house-name">Ravenclaw</h3>
+                            <p class="house-desc">Intelligence, wisdom, and creativity form the foundations of Rowena
+                                Ravenclaw. Styled with the eagle and the element of air.</p>
+                            <div class="house-traits">
+                                <span class="trait-tag">Wisdom</span>
+                                <span class="trait-tag">Wit</span>
+                                <span class="trait-tag">Learning</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hufflepuff -->
+                    <div class="house-card glass-panel" data-house="hufflepuff" id="card-hufflepuff">
+                        <div class="house-card-border-glow"></div>
+                        <div class="house-card-content">
+                            <div class="house-icon-wrapper">
+                                <!-- Hufflepuff Badger SVG Emblem -->
+                                <svg class="house-icon" viewBox="0 0 100 100" fill="currentColor">
+                                    <path
+                                        d="M50,5 C30,15 20,30 20,55 C20,75 35,90 50,95 C65,90 80,75 80,55 C80,30 70,15 50,5 Z M50,85 C42,80 30,68 30,52 C30,42 35,32 45,22 C48,25 45,35 48,40 C51,32 58,25 65,22 C62,28 65,35 62,45 C65,42 70,45 68,52 C65,65 58,78 50,85 Z"
+                                        opacity="0.15" />
+                                    <path
+                                        d="M50,22 C42,22 35,28 35,36 C35,45 42,48 50,52 C58,48 65,45 65,36 C65,28 58,22 50,22 Z M40,62 C35,65 35,70 38,75 C42,72 45,72 50,75 C55,72 58,72 62,75 C65,70 65,65 60,62 C50,60 50,60 40,62 Z"
+                                        fill="#ECB939" />
+                                </svg>
+                            </div>
+                            <h3 class="house-name">Hufflepuff</h3>
+                            <p class="house-desc">Loyalty, patience, and fair play belong to Helga Hufflepuff's
+                                dedicated house. Symbolized by the badger and the element of earth.</p>
+                            <div class="house-traits">
+                                <span class="trait-tag">Loyalty</span>
+                                <span class="trait-tag">Patience</span>
+                                <span class="trait-tag">Hard Work</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="journey" class="journey-section map-zone" data-label="Hogwarts Journey">
+
+            <div class="container">
+                <div class="section-header text-center">
+                    <h2 class="section-title gold-text">Journey Through Hogwarts</h2>
+                    <p class="section-subtitle">Relive the legendary years of magic and mystery.</p>
+                </div>
+
+                <div class="timeline-container">
+
+                    <div class="timeline-line-vertical"></div>
+
+                    <!-- YEAR 1 -->
+                    <div class="timeline-row">
+                        <div class="timeline-col timeline-card-col">
+                            <div class="timeline-story-card">
+                                <div class="timeline-story-year">Year 1</div>
+                                <div class="timeline-story-title">The Philosopher’s Stone</div>
+                                <div class="timeline-story-desc">
+                                    Harry discovers Hogwarts, meets Ron & Hermione, and faces Voldemort for the first
+                                    time.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-col timeline-dot-col">
+                            <div class="timeline-story-dot"></div>
+                        </div>
+                        <div class="timeline-col"></div>
+                    </div>
+
+                    <!-- YEAR 2 -->
+                    <div class="timeline-row">
+                        <div class="timeline-col"></div>
+                        <div class="timeline-col timeline-dot-col">
+                            <div class="timeline-story-dot"></div>
+                        </div>
+                        <div class="timeline-col timeline-card-col">
+                            <div class="timeline-story-card">
+                                <div class="timeline-story-year">Year 2</div>
+                                <div class="timeline-story-title">Chamber of Secrets</div>
+                                <div class="timeline-story-desc">
+                                    Students are petrified as the Chamber of Secrets is reopened.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- YEAR 3 -->
+                    <div class="timeline-row">
+                        <div class="timeline-col timeline-card-col">
+                            <div class="timeline-story-card">
+                                <div class="timeline-story-year">Year 3</div>
+                                <div class="timeline-story-title">Prisoner of Azkaban</div>
+                                <div class="timeline-story-desc">
+                                    Sirius Black escapes, revealing hidden truths about Harry’s past.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-col timeline-dot-col">
+                            <div class="timeline-story-dot"></div>
+                        </div>
+                        <div class="timeline-col"></div>
+                    </div>
+
+                    <!-- YEAR 4 -->
+                    <div class="timeline-row">
+                        <div class="timeline-col"></div>
+                        <div class="timeline-col timeline-dot-col">
+                            <div class="timeline-story-dot"></div>
+                        </div>
+                        <div class="timeline-col timeline-card-col">
+                            <div class="timeline-story-card">
+                                <div class="timeline-story-year">Year 4</div>
+                                <div class="timeline-story-title">Goblet of Fire</div>
+                                <div class="timeline-story-desc">
+                                    The Triwizard Tournament begins and Voldemort returns.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Spells Section -->
+        <section id="spells" class="spells-section map-zone" data-label="Defense Classroom">
+            <div class="container">
+                <div class="section-header text-center">
+                    <h2 class="section-title gold-text">Defense Against the Dark Arts</h2>
+                    <p class="section-subtitle">Click a spell to focus your intent and cast a magical beam of energy.</p>
+                </div>
+
+                <div class="spells-list">
+                    <!-- Lumos -->
+                    <div class="spell-item glass-panel" data-spell="lumos" id="spell-lumos">
+                        <div class="spell-info">
+                            <h3 class="spell-name">Lumos</h3>
+                            <p class="spell-incantation">"Lumos!"</p>
+                            <p class="spell-desc">Creates a bright beam of light at the tip of the wand.</p>
+                        </div>
+                        <button class="btn btn-gold spell-cast-btn">Cast</button>
+                    </div>
+
+                    <!-- Expelliarmus -->
+                    <div class="spell-item glass-panel" data-spell="expelliarmus" id="spell-expelliarmus">
+                        <div class="spell-info">
+                            <h3 class="spell-name">Expelliarmus</h3>
+                            <p class="spell-incantation">"Expelliarmus!"</p>
+                            <p class="spell-desc">The disarming charm. Knocks wands out of opponent's hand.</p>
+                        </div>
+                        <button class="btn btn-gold spell-cast-btn">Cast</button>
+                    </div>
+
+                    <!-- Expecto Patronum -->
+                    <div class="spell-item glass-panel" data-spell="patronum" id="spell-patronum">
+                        <div class="spell-info">
+                            <h3 class="spell-name">Expecto Patronum</h3>
+                            <p class="spell-incantation">"Expecto Patronum!"</p>
+                            <p class="spell-desc">Summons a spirit guardian to repel Dementors.</p>
+                        </div>
+                        <button class="btn btn-gold spell-cast-btn">Cast</button>
+                    </div>
+
+                    <!-- Alohomora -->
+                    <div class="spell-item glass-panel" data-spell="alohomora" id="spell-alohomora">
+                        <div class="spell-info">
+                            <h3 class="spell-name">Alohomora</h3>
+                            <p class="spell-incantation">"Alohomora!"</p>
+                            <p class="spell-desc">The unlocking charm. Opens locked doors and boxes.</p>
+                        </div>
+                        <button class="btn btn-gold spell-cast-btn">Cast</button>
+                    </div>
+                </div>
+
+                <div class="casting-status" id="casting-status">
+                    <!-- Text will dynamically appear here when spell is cast -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Characters Section -->
+        <section id="characters" class="characters-section map-zone" data-label="Wizard Archives">
+            <div class="container">
+                <div class="section-header text-center">
+                    <h2 class="section-title gold-text">Legendary Characters</h2>
+                    <p class="section-subtitle">Meet the famous witches and wizards who shaped magical history.</p>
+                </div>
+
+                <div class="characters-carousel-container">
+                    <button class="carousel-nav prev" id="carousel-prev"
+                        aria-label="Previous Character">&lsaquo;</button>
+                    <div class="characters-track" id="characters-track">
+                        <!-- Harry Potter -->
+                        <div class="character-card glass-panel" data-character="harry" id="char-harry">
+                            <div class="char-image-container">
+                                <img src="assets/harry_potter.png" alt="Harry Potter portrait" class="char-image">
+                                <span class="char-role-tag">Hero</span>
+                            </div>
+                            <div class="char-info">
+                                <h3 class="char-name">Harry Potter</h3>
+                                <p class="char-role">The Boy Who Lived</p>
+                                <button class="btn btn-sm btn-gold char-details-btn">Reveal Profile</button>
+                            </div>
+                        </div>
+
+                        <!-- Hermione Granger -->
+                        <div class="character-card glass-panel" data-character="hermione" id="char-hermione">
+                            <div class="char-image-container">
+                                <img src="assets/hermione_granger.png" alt="Hermione Granger portrait"
+                                    class="char-image">
+                                <span class="char-role-tag">Strategist</span>
+                            </div>
+                            <div class="char-info">
+                                <h3 class="char-name">Hermione Granger</h3>
+                                <p class="char-role">The Brightest Witch of Her Age</p>
+                                <button class="btn btn-sm btn-gold char-details-btn">Reveal Profile</button>
+                            </div>
+                        </div>
+
+                        <!-- Ron Weasley -->
+                        <div class="character-card glass-panel" data-character="ron" id="char-ron">
+                            <div class="char-image-container">
+                                <img src="assets/ron_weasley.png" alt="Ron Weasley portrait" class="char-image">
+                                <span class="char-role-tag">Friend</span>
+                            </div>
+                            <div class="char-info">
+                                <h3 class="char-name">Ron Weasley</h3>
+                                <p class="char-role">The Loyal Knight</p>
+                                <button class="btn btn-sm btn-gold char-details-btn">Reveal Profile</button>
+                            </div>
+                        </div>
+
+                        <!-- Albus Dumbledore -->
+                        <div class="character-card glass-panel" data-character="dumbledore" id="char-dumbledore">
+                            <div class="char-image-container">
+                                <img src="assets/albus_dumbledore.png" alt="Albus Dumbledore portrait"
+                                    class="char-image">
+                                <span class="char-role-tag">Mentor</span>
+                            </div>
+                            <div class="char-info">
+                                <h3 class="char-name">Albus Dumbledore</h3>
+                                <p class="char-role">Headmaster of Hogwarts</p>
+                                <button class="btn btn-sm btn-gold char-details-btn">Reveal Profile</button>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-nav next" id="carousel-next" aria-label="Next Character">&rsaquo;</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Magical Artifacts Section (NEW) -->
+        <section id="artifacts" class="artifacts-section map-zone" data-label="Room of Requirement">
+            <div class="container">
+                <div class="section-header text-center">
+                    <h2 class="section-title gold-text">Magical Artifacts</h2>
+                    <p class="section-subtitle">Discover the legendary objects that shaped wizarding history.</p>
+                </div>
+
+                <div class="artifacts-grid">
+                    <!-- Invisibility Cloak -->
+                    <div class="artifact-card glass-panel">
+                        <div class="artifact-icon-wrapper">
+                            <svg class="artifact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                                <path d="M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6z"/>
+                                <path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z"/>
+                            </svg>
+                            <div class="artifact-power">Legendary</div>
+                        </div>
+                        <div class="artifact-content">
+                            <h3 class="artifact-name">Invisibility Cloak</h3>
+                            <p class="artifact-origin">Deathly Hallow</p>
+                            <p class="artifact-desc">One of the three Deathly Hallows. Makes the wearer completely invisible to others, even magical detection.</p>
+                            <div class="artifact-owner">Owner: Harry Potter</div>
+                        </div>
+                    </div>
+
+                    <!-- Elder Wand -->
+                    <div class="artifact-card glass-panel">
+                        <div class="artifact-icon-wrapper">
+                            <svg class="artifact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M12 2L4 8v8l8 6 8-6V8l-8-6z"/>
+                                <path d="M12 2v18"/>
+                                <path d="M4 8l8 6 8-6"/>
+                                <circle cx="12" cy="12" r="2"/>
+                            </svg>
+                            <div class="artifact-power legendary">Supreme</div>
+                        </div>
+                        <div class="artifact-content">
+                            <h3 class="artifact-name">Elder Wand</h3>
+                            <p class="artifact-origin">Deathly Hallow</p>
+                            <p class="artifact-desc">The most powerful wand ever created. Unbeatable in duels and capable of performing magic beyond imagination.</p>
+                            <div class="artifact-owner">Owner: Harry Potter</div>
+                        </div>
+                    </div>
+
+                    <!-- Time-Turner -->
+                    <div class="artifact-card glass-panel">
+                        <div class="artifact-icon-wrapper">
+                            <svg class="artifact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M12 6v6l4 2"/>
+                                <circle cx="12" cy="12" r="3"/>
+                                <path d="M12 2v2"/>
+                                <path d="M12 20v2"/>
+                                <path d="M2 12h2"/>
+                                <path d="M20 12h2"/>
+                            </svg>
+                            <div class="artifact-power rare">Rare</div>
+                        </div>
+                        <div class="artifact-content">
+                            <h3 class="artifact-name">Time-Turner</h3>
+                            <p class="artifact-origin">Ministry of Magic</p>
+                            <p class="artifact-desc">A magical hourglass that allows the wearer to travel back in time, typically for short periods.</p>
+                            <div class="artifact-owner">Owner: Hermione Granger</div>
+                        </div>
+                    </div>
+
+                    <!-- Marauder's Map -->
+                    <div class="artifact-card glass-panel">
+                        <div class="artifact-icon-wrapper">
+                            <svg class="artifact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                                <path d="M3 9h18"/>
+                                <path d="M9 21V9"/>
+                                <circle cx="15" cy="15" r="2"/>
+                                <path d="M15 13v2"/>
+                                <path d="M13 15h2"/>
+                            </svg>
+                            <div class="artifact-power unique">Unique</div>
+                        </div>
+                        <div class="artifact-content">
+                            <h3 class="artifact-name">Marauder's Map</h3>
+                            <p class="artifact-origin">Created by Marauders</p>
+                            <p class="artifact-desc">A magical map that shows every person's location within Hogwarts Castle and its grounds in real-time.</p>
+                            <div class="artifact-owner">Owner: Harry Potter</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Interactive Character Modals -->
+    <div class="modal-overlay" id="char-modal">
+        <div class="modal-container glass-panel">
+            <button class="modal-close" id="modal-close" aria-label="Close Profile">&times;</button>
+            <div class="modal-content" id="modal-content-area">
+                <!-- Content injected dynamically via JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden Easter Eggs UI & Marauder Controls -->
+    <button id="marauders-toggle" class="btn-marauders" aria-label="I solemnly swear that I am up to no good">
+        <span class="footprints-btn-icon">👣</span>
+        <span class="footprints-btn-text">Marauder's Map</span>
+    </button>
+
+    <div id="marauders-overlay" class="marauders-overlay-text hidden">
+        <p class="magical-whisper">"I solemnly swear that I am up to no good."</p>
+    </div>
+
+    <!-- Page Footer -->
+    <footer class="main-footer">
+        <div class="container text-center">
+            <p class="footer-quote">"Words are, in my not-so-humble opinion, our most inexhaustible source of magic."
+            </p>
+            <p class="footer-attribution">&mdash; Albus Dumbledore</p>
+            <div class="footer-divider"></div>
+            
+        </div>
+    </footer>
+
+    <!-- Audio Element (Ambient Music) -->
+    <audio id="ambient-audio" loop preload="auto">
+        <source src="https://assets.mixkit.co/active_storage/sfx/2568/2568-84.wav" type="audio/wav">
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
